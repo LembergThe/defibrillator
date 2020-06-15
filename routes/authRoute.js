@@ -164,9 +164,14 @@ router.post(
   async (req, res) => {
     // Get email and password from request
     const { email, password } = req.body;
+    console.log(email)
+    console.log(password)
+    console.log(User.find()); // Prints documents one at a time
 
     // Search document in collection 'users' with email
-    const candidate = await User.findOne({ email });
+    const candidate = await User.findOne({ 'email': email });
+
+    console.log(candidate)
 
     // Candidate exists
     if (candidate) {
@@ -175,7 +180,8 @@ router.post(
         password,
         candidate.password
       );
-
+      console.log(passwordResult)
+      console.log(candidate.password)
       // Compare passwords success
       if (passwordResult) {
         // Get data from candidate

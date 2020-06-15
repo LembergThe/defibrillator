@@ -4,13 +4,13 @@
   "description": "backend part of defibrillator project",
   "main": "server.js",
   "scripts": {
-    "client": "cd client/ && yarn start",
     "server": "nodemon start.js",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
     "start": "node start.js",
+    "migrate-and-start": "yarn migrate && yarn start",
     "lint": "eslint server.js ./config ./consts ./middleware ./models ./routes ./shared ./emails ./websocket --ext .js",
-    "test-client": "cd client/ && yarn test",
-    "test-server": "cross-env NODE_ENV=node jest routes --coverage",
+    "test": "cross-env NODE_ENV=node jest routes --coverage",
+    "migrate": "yarn run migrate-admin-up && yarn run migrate-defibrillators-up",
     "migrate-admin-down": "migrate-mongo down -f ./migrations/adminMigration/migrate-mongo-config.js",
     "migrate-admin-up": "migrate-mongo up -f ./migrations/adminMigration/migrate-mongo-config.js",
     "migrate-admin-status": "migrate-mongo status -f ./migrations/adminMigration/migrate-mongo-config.js",
@@ -40,17 +40,6 @@
         "statements": 70
       }
     }
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged && yarn test-server && yarn test-client"
-    }
-  },
-  "lint-staged": {
-    "*.(js|jsx)": [
-      "yarn lint --fix",
-      "git add"
-    ]
   },
   "keywords": [
     "nodejs",

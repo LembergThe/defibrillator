@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const defaultMongoURI = 'mongodb://localhost:27017/defibrillatorDB';
+const defaultMongoURI = process.env.MONGODB_URI || 'mongodb://root:root@localhost:27017/defibrillator';
 let gfs;
 
 const dbInit = (mongoURI = defaultMongoURI) => {

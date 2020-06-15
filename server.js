@@ -1,5 +1,4 @@
 const express = require('express');
-const path = require('path');
 const passport = require('passport');
 const http = require('http');
 const socketio = require('socket.io');
@@ -19,8 +18,6 @@ authEvent(io);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('client/build'));
-app.use(express.static('client/testing'));
 
 app.use('/api/auth', authRoute);
 app.use('/api/gmap', gmapRoute);
@@ -30,11 +27,5 @@ app.use('/api/images', imageRoute);
 // Middlewares for passport
 app.use(passport.initialize());
 require('./middleware/passport')(passport);
-
-app.get('*', (req, res) => {
-  res.sendFile(
-    path.resolve(__dirname, 'client', 'build', 'index.html')
-  );
-});
 
 module.exports = { server, app };
